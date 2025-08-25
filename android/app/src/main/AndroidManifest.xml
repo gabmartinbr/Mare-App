@@ -1,6 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 🔑 PERMISOS NECESARIOS -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
-        android:label="mare_app"
+        android:label="mare_app_v1"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

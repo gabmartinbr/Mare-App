@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'screens/splash_screen.dart';
+import 'pages/splash_page.dart';
 
 void main() {
   runApp(const ProviderScope(child: MareApp()));

@@ -1,51 +1,19 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:geolocator/geolocator.dart';
 
-Future<Position?> getCurrentLocation() async {
-  bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  if (!serviceEnabled) return null;
+class IhmService {
+  static const String baseUrl = "https://ideihm.covam.es/api-ihm/getmarea";
 
-  LocationPermission permission = await Geolocator.checkPermission();
-  if (permission == LocationPermission.denied) {
-    permission = await Geolocator.requestPermission();
-    if (permission == LocationPermission.denied) return null;
-  }
-  if (permission == LocationPermission.deniedForever) return null;
+  // Obtener la marea de un puerto en una fecha
+  static Future<Map<String, dynamic>> getTide(String portId, String date) async {
+    final url = "$baseUrl?request=gettide&id=$portId&format=json&date=$date";
+    final response = await http.get(Uri.parse(url));
 
-  return await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high);
-}
-
-Future<Map<String, dynamic>?> getNearestPort(Position userPos) async {
-  final url = Uri.parse(
-      "https://ideihm.covam.es/api-ihm/getpuertos?request=getports&format=json");
-
-  try {
-    final response = await http.get(url);
     if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      List<dynamic> ports = data['puertos'];
-
-      Map<String, dynamic>? nearest;
-      double minDistance = double.infinity;
-
-      for (var port in ports) {
-        double lat = double.parse(port['lat']);
-        double lon = double.parse(port['lon']);
-        double distance = Geolocator.distanceBetween(
-            userPos.latitude, userPos.longitude, lat, lon);
-        if (distance < minDistance) {
-          minDistance = distance;
-          nearest = port;
-        }
-      }
-
-      return nearest;
+      final Map<String, dynamic> jsonData = json.decode(response.body);
+      return jsonData;
+    } else {
+      throw Exception("Error al obtener datos de marea");
     }
-  } catch (e) {
-    print("Error al obtener puertos: $e");
   }
-
-  return null;
 }

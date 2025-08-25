@@ -1,4 +1,4 @@
-name: mare_app
+name: mare_app_v1
 description: "A new Flutter project."
 publish_to: 'none'
 version: 0.1.0
@@ -15,11 +15,20 @@ dependencies:
   geolocator: ^11.0.0
   geocoding: ^4.0.0
   fl_chart: ^0.65.0
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.13.1
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/waves.png
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/waves.png"
